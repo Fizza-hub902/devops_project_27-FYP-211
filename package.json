@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node --test",
-    "build": "node tools/build.js src out"
+    "build": "mkdir -p out && for f in src/*.md; do node tools/build.js \"$f\" \"out/$(basename \"$f\" .md).html\"; done"
   },
   "keywords": [],
   "author": "",
