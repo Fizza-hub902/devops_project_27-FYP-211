@@ -1,0 +1,15 @@
+lint:
+    name: lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: make lint
+analyse:
+    name: analyse
+    needs: test
+    runs-on: ubuntu-24.04
+    continue-on-error: true  # <--- Yeh line add karni hai
