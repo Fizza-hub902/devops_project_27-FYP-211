@@ -4,7 +4,7 @@ OUT_DIR := out
 SOURCES := $(wildcard $(SRC_DIR)/*.md)
 OUTPUTS := $(patsubst $(SRC_DIR)/%.md,$(OUT_DIR)/%.html,$(SOURCES))
 
-.PHONY: all check build test clean ci deps package
+.PHONY: all check build test clean ci deps package lint
 
 all: test
 
@@ -23,22 +23,25 @@ $(OUT_DIR)/%.html: $(SRC_DIR)/%.md package-lock.json | $(OUT_DIR) node_modules
 
 check:
 	@if [ ! -d "$(SRC_DIR)" ]; then \
-		echo "ERROR: source directory does not exist"; exit 1; \
+	  echo "ERROR: source directory does not exist"; exit 1; \
 	fi
 	@if [ -z "$(SOURCES)" ]; then \
-		echo "ERROR: no .md files found"; exit 1; \
+	  echo "ERROR: no .md files found"; exit 1; \
 	fi
 	@echo "CHECK PASSED: found $(words $(SOURCES)) source file(s)"
 
 build: $(OUTPUTS)
 
+lint: node_modules  ## static analysis: seconds, so it runs first
+	@npm run --silent lint
+
 test: build
 	@npm test --silent
 
 clean:
-	rm -rf $(OUT_DIR) *.tgz
+	rm -rf $(OUT_DIR)
 
-package: test
+package: build
 	npm pack
 
-ci: clean deps check test package
+ci: clean deps check lint test package  ## everything, in pipeline order
