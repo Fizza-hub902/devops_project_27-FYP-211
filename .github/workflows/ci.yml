@@ -18,6 +18,7 @@ jobs:
           node-version: '22'
           cache: npm            # Caches npm dependencies based on package-lock.json
       - run: npm ci
+      - run: npm run build
       - run: npm test
       - uses: actions/upload-artifact@v4
         with:
