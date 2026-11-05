@@ -1,20 +1,41 @@
 name: CI
- 
+
 on:
   push:
     branches: [main]
   pull_request:
- 
+  schedule:
+    - cron: '0 2 * * *'         # 02:00 UTC, nightly
+
 jobs:
   build:
     name: build-and-test
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
- 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
- 
-      - name: Build, test and package
-        run: make ci
+          cache: npm            # Caches npm dependencies based on package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npm pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: devops-pipeline
+          path: '*.tgz'
+          if-no-files-found: error
+
+  audit:
+    name: dependency-audit
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'schedule'  # Restricts this slow job to schedule only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high
