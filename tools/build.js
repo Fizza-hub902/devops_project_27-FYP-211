@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-// tools/build.js — renders one Markdown source into one HTML page.
-// Called by the Makefile:  npm run build -- src/notes.md out/notes.html
+// tools/build.js - renders one Markdown source into one HTML page.
+// Called by the Makefile: npm run build -- src/notes.md out/notes.html
 const fs = require('fs');
 const path = require('path');
 const MarkdownIt = require('markdown-it');
- 
-const unusedLimit = 100;
+
 const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
- 
+
 // The part worth testing: Markdown text in, a complete HTML page out.
 function renderPage(markdown, title) {
   return `<!doctype html>
@@ -17,7 +16,7 @@ function renderPage(markdown, title) {
 ${md.render(markdown)}</html>
 `;
 }
- 
+
 function main(argv) {
   const [src, dest] = argv;
   if (!src || !dest) {
@@ -29,9 +28,9 @@ function main(argv) {
   fs.writeFileSync(dest, html);
   return 0;
 }
- 
+
 module.exports = { renderPage, main };
- 
+
 if (require.main === module) {
   process.exitCode = main(process.argv.slice(2));
 }
