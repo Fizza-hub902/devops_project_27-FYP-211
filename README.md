@@ -1,7 +1,18 @@
-# Project 27-FYP-211
+# DevOps Pipeline
 
-Team Members:
-- Fizza Shameen (23-NTU-CS-1157)
-- Shanza (shanza-12)
+Version: 1.1.0
 
-Review turnaround: Within 24 hours
+This project converts Markdown source files into HTML pages
+using Node.js and markdown-it.
+
+## Build
+Run: make build
+
+## Test
+Run: make test
+
+## CI Pipeline
+Run: make ci
+
+## Package
+Run: npm pack
