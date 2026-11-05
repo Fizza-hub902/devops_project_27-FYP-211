@@ -23,5 +23,3 @@ test('every generated page is not empty', () => {
     assert.ok(stats.size > 0, `${p} is empty`);
   }
 });
-
-test('this always fails', () => assert.ok(false));
