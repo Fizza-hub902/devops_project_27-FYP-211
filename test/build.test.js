@@ -1,11 +1,16 @@
+
 const { test } = require('node:test');
 const assert = require('node:assert');
 const fs = require('fs');
 
-const pages = fs.readdirSync('out').filter(f => f.endsWith('.html'));
+const pages = fs.readdirSync('out').filter(
+  (f) => f.endsWith('.html')
+);
 
 test('every source produced a page', () => {
-  const sources = fs.readdirSync('src').filter(f => f.endsWith('.md'));
+  const sources = fs.readdirSync('src').filter(
+    (f) => f.endsWith('.md')
+  );
   assert.strictEqual(pages.length, sources.length);
 });
 
@@ -13,7 +18,7 @@ test('every page is real HTML and not raw Markdown', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
     assert.match(html, /<!doctype html>/);
-    assert.doesNotMatch(html, /^# /m);
+    assert.doesNotMatch(html, /# /m);
   }
 });
 
@@ -24,9 +29,12 @@ test('every generated page is not empty', () => {
   }
 });
 
-test('each page title is its source filename', () => {
+test('each page title matches its source filename', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
-    assert.ok(html.includes('<title>' + p.replace('.html', '') + '</title>'));
+    const title = p.replace('.html', '');
+    const expected = title.charAt(0).toUpperCase() + title.slice(1);
+
+    assert.ok(html.includes('<title>' + expected + '</title>'));
   }
 });
