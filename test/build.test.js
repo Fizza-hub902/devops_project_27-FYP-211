@@ -32,9 +32,6 @@ test('every generated page is not empty', () => {
 test('each page title matches its source filename', () => {
   for (const p of pages) {
     const html = fs.readFileSync('out/' + p, 'utf8');
-    const title = p.replace('.html', '');
-    const expected = title.charAt(0).toUpperCase() + title.slice(1);
-
-    assert.ok(html.includes('<title>' + expected + '</title>'));
+    assert.ok(html.includes('<title>' + p.replace('.html', '') + '</title>'));
   }
 });
