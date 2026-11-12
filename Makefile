@@ -1,7 +1,11 @@
 OUT_DIR ?= out
 
 build:
-	node tools/build.js src/notes.md $(OUT_DIR)/notes.html
+	@mkdir -p $(OUT_DIR)
+	@for file in src/*.md; do \
+	  name=$$(basename "$$file" .md); \
+	  node tools/build.js "$$file" "$(OUT_DIR)/$$name.html"; \
+	done
 
 lint: node_modules  ## static analysis: seconds, so it runs first
 	npm run --silent lint
