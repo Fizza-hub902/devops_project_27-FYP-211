@@ -1,39 +1,23 @@
 {
-  "name": "@fizza-hub902/devops-pipeline",
-  "version": "1.1.0",
-  "description": "Renders the course Markdown sources into HTML pages.",
+  "name": "devops-project",
+  "version": "1.0.0",
+  "description": "DevOps Lab Project - Pipeline as Code and Quality Gates",
   "main": "tools/build.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
+    "lint": "eslint .",
+    "build": "node tools/build.js src/notes.md out/notes.html",
     "test": "node --test",
-    "build": "node tools/build.js",
-    "lint": "eslint ."
+    "coverage": "node --test --experimental-test-coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bin": {
-    "devops-build": "tools/build.js"
-  },
-  "files": [
-    "tools/",
-    "README.md"
-  ],
-  "dependencies": {
-    "markdown-it": "^15.0.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Fizza-hub902/devops_project_27-FYP-211.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.14.0",
-    "globals": "^17.14.0"
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
   }
 }
